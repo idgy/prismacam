@@ -34,8 +34,8 @@ JNI_METHOD(jlong, nativeCreateRenderer)(JNIEnv *env, jclass clazz,
 }
 
 JNI_METHOD(void, nativeDestroyRenderer)
-(JNIEnv *env, jclass clazz, jlong native_treasure_hunt) {
-  delete native(native_treasure_hunt);
+(JNIEnv *env, jclass clazz, jlong native_prisma_cam) {
+  delete native(native_prisma_cam);
 }
 
 JNI_METHOD(void, nativeInitializeGl)(JNIEnv *env, jobject obj,
