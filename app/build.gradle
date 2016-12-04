@@ -6,7 +6,7 @@ model {
         buildToolsVersion = "24.0.0"
 
         defaultConfig.with {
-            applicationId = "com.google.vr.ndk.samples.xxx.prisma_cam"
+            applicationId = "com.google.vr.ndk.samples.prisma_cam"
             minSdkVersion.apiLevel = 19
             targetSdkVersion.apiLevel = 24
             versionCode = 1

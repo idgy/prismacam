@@ -1,16 +1,11 @@
 
 
-#ifndef TREASUREHUNT_APP_SRC_MAIN_JNI_TREASUREHUNTRENDERER_H_  // NOLINT
-#define TREASUREHUNT_APP_SRC_MAIN_JNI_TREASUREHUNTRENDERER_H_  // NOLINT
+#ifndef PRISMA_CAM_RENDERER_H__  // NOLINT
+#define PRISMA_CAM_RENDERER_H__  // NOLINT
 
 #include <EGL/egl.h>
 #include <GLES2/gl2.h>
 #include <jni.h>
-
-#include <memory>
-#include <string>
-#include <thread>  // NOLINT
-#include <vector>
 
 #include "vr/gvr/capi/include/gvr.h"
 #include "vr/gvr/capi/include/gvr_types.h"
@@ -34,4 +29,4 @@ private:
 
 };
 
-#endif  // TREASUREHUNT_APP_SRC_MAIN_JNI_TREASUREHUNTRENDERER_H_  // NOLINT
+#endif  // PRISMA_CAM_RENDERER_H__  // NOLINT
