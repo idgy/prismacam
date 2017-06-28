@@ -12,6 +12,9 @@
 bin/
 gen/
 out/
+*.d
+*.lib
+
 
 # Gradle files
 .gradle/

@@ -12,6 +12,6 @@
    limitations under the License.
 -->
 <resources>
-    <string name="app_name">C++ Hello Video</string>
-    <string name="app_name_long">C++ Hello Video Example</string>
+    <string name="app_name">PrismaCam</string>
+    <string name="app_name_long">Example of Canny</string>
 </resources>
