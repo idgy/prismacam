@@ -54,6 +54,7 @@ void HelloVideoApp::OnCreate(JNIEnv* env, jobject caller_activity,
                              int activity_rotation, int sensor_rotation) {
   // Check the installed version of the TangoCore.  If it is too old, then
   // it will not support the most up to date features.
+
   int version = 0;
   TangoErrorType err =
       TangoSupport_GetTangoVersion(env, caller_activity, &version);
@@ -212,7 +213,7 @@ void HelloVideoApp::OnSurfaceCreated() {
 }
 
 void HelloVideoApp::OnSurfaceChanged(int width, int height) {
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, width/2, height);
 }
 
 

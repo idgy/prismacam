@@ -37,6 +37,7 @@ public class HelloVideoActivity extends Activity {
     private static final int CAMERA_ID = 0;
 
     private GLSurfaceView mSurfaceView;
+    private GLSurfaceView mSurfaceView2;
     private ToggleButton mYuvRenderSwitcher;
 
     private ServiceConnection mTangoServiceCoonnection = new ServiceConnection() {
@@ -71,6 +72,10 @@ public class HelloVideoActivity extends Activity {
         mSurfaceView.setEGLContextClientVersion(2);
         mSurfaceView.setRenderer(new HelloVideoRenderer());
 
+        mSurfaceView2 = (GLSurfaceView) findViewById(R.id.surfaceview2);
+        mSurfaceView2.setEGLContextClientVersion(2);
+        mSurfaceView2.setRenderer(new HelloVideoRenderer());
+
         mYuvRenderSwitcher = (ToggleButton) findViewById(R.id.yuv_switcher);
     }
 
@@ -78,6 +83,7 @@ public class HelloVideoActivity extends Activity {
     protected void onResume() {
         super.onResume();
         mSurfaceView.onResume();
+        mSurfaceView2.onResume();
         TangoInitializationHelper.bindTangoService(this, mTangoServiceCoonnection);
         TangoJniNative.setYuvMethod(mYuvRenderSwitcher.isChecked());
     }
@@ -86,6 +92,7 @@ public class HelloVideoActivity extends Activity {
     protected void onPause() {
         super.onPause();
         mSurfaceView.onPause();
+        mSurfaceView2.onPause();
         TangoJniNative.onPause();
         unbindService(mTangoServiceCoonnection);
     }
