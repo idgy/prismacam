@@ -212,7 +212,7 @@ void HelloVideoApp::OnSurfaceCreated() {
                                              color_camera_to_display_rotation);
 }
 
-void HelloVideoApp::OnSurfaceChanged(int width, int height) {
+void HelloVideoApp::OnSurfaceChanged(int width0, int width, int height) {
   glViewport(0, 0, width/2, height);
 }
 

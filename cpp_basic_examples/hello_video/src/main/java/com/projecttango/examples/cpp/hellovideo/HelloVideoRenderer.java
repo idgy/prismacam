@@ -26,6 +26,12 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class HelloVideoRenderer implements GLSurfaceView.Renderer {
 
+    private boolean mLeftSurface;
+
+    public HelloVideoRenderer(boolean left) {
+        mLeftSurface = left;
+    }
+
     // Render loop of the Gl context.
     public void onDrawFrame(GL10 gl) {
         TangoJniNative.onGlSurfaceDrawFrame();
@@ -33,7 +39,10 @@ public class HelloVideoRenderer implements GLSurfaceView.Renderer {
 
     // Called when the surface size changes.
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        TangoJniNative.onGlSurfaceChanged(width, height);
+        if(mLeftSurface)
+            TangoJniNative.onGlSurfaceChanged(0, width/2, height);
+        else
+            TangoJniNative.onGlSurfaceChanged(width/2, width/2, height);
     }
 
     // Called when the surface is created or recreated.

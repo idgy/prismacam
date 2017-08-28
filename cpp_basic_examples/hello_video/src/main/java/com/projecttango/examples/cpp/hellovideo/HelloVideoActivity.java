@@ -62,6 +62,8 @@ public class HelloVideoActivity extends Activity {
         // Check the current screen rotation and set it to the renderer.
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
+
+        //todo: use Camera2 + CameraCharacteristics + CameraManager
         Camera.CameraInfo info = new Camera.CameraInfo();
         Camera.getCameraInfo(CAMERA_ID, info);
 
@@ -70,11 +72,11 @@ public class HelloVideoActivity extends Activity {
         // Configure OpenGL renderer
         mSurfaceView = (GLSurfaceView) findViewById(R.id.surfaceview);
         mSurfaceView.setEGLContextClientVersion(2);
-        mSurfaceView.setRenderer(new HelloVideoRenderer());
+        mSurfaceView.setRenderer(new HelloVideoRenderer(true));
 
         mSurfaceView2 = (GLSurfaceView) findViewById(R.id.surfaceview2);
         mSurfaceView2.setEGLContextClientVersion(2);
-        mSurfaceView2.setRenderer(new HelloVideoRenderer());
+        mSurfaceView2.setRenderer(new HelloVideoRenderer(false));
 
         mYuvRenderSwitcher = (ToggleButton) findViewById(R.id.yuv_switcher);
     }

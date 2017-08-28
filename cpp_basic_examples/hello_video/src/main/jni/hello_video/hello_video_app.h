@@ -69,7 +69,7 @@ class HelloVideoApp {
   void OnSurfaceCreated();
 
   // Setup the view port width and height.
-  void OnSurfaceChanged(int width, int height);
+  void OnSurfaceChanged(int widhth0, int width, int height);
 
   // Main render loop.
   void OnDrawFrame();

@@ -65,7 +65,7 @@ public class TangoJniNative {
     /**
      * Delegate {@code GLSurfaceView.onGlSurfaceChanged} to the native code code.
      */
-    public static native void onGlSurfaceChanged(int width, int height);
+    public static native void onGlSurfaceChanged(int width0, int width, int height);
 
     /**
      * Delegate {@code GLSurfaceView.onGlSurfaceDrawFrame} to the native code code.

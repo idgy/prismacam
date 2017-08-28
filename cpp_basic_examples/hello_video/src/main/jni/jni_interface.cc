@@ -51,8 +51,8 @@ Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_onGlSurfaceCreated(
 
 JNIEXPORT void JNICALL
 Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_onGlSurfaceChanged(
-    JNIEnv*, jobject, jint width, jint height) {
-  app.OnSurfaceChanged(width, height);
+    JNIEnv*, jobject, jint width0, jint width, jint height) {
+  app.OnSurfaceChanged(width0, width, height);
 }
 
 JNIEXPORT void JNICALL
