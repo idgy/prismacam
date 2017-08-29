@@ -38,15 +38,7 @@ void OnFrameAvailableRouter(void* context, TangoCameraId,
   app->OnFrameAvailable(buffer);
 }
 
-// We could do this conversion in a fragment shader if all we care about is
-// rendering, but we show it here as an example of how people can use RGB data
-// on the CPU.
-inline void Yuv2Rgb(uint8_t yValue, uint8_t uValue, uint8_t vValue, uint8_t* r,
-                    uint8_t* g, uint8_t* b) {
-  *r = yValue + (1.370705 * (vValue - 128));
-  *g = yValue - (0.698001 * (vValue - 128)) - (0.337633 * (uValue - 128));
-  *b = yValue + (1.732446 * (uValue - 128));
-}
+
 }  // namespace
 
 namespace hello_video {
@@ -184,10 +176,6 @@ void HelloVideoApp::OnFrameAvailable(const TangoImageBuffer* buffer) {
   std::lock_guard<std::mutex> lock(yuv_buffer_mutex_);
   memcpy(&yuv_temp_buffer_[0], buffer->data, yuv_size_);
   swap_buffer_signal_ = true;
-
-  //try canny
-
-
 }
 
 void HelloVideoApp::DeleteDrawables() {
@@ -202,6 +190,8 @@ void HelloVideoApp::OnSurfaceCreated() {
     this->DeleteDrawables();
   }
 
+  LOGE("HelloVideoApp::OnSurfaceCreate");
+
   TangoSupportDisplayRotation color_camera_to_display_rotation =
       tango_gl::util::GetAndroidRotationFromColorCameraToDisplay(
           activity_rotation_, sensor_rotation_);
@@ -213,10 +203,14 @@ void HelloVideoApp::OnSurfaceCreated() {
 }
 
 void HelloVideoApp::OnSurfaceChanged(int width0, int width, int height) {
-  glViewport(0, 0, width/2, height);
+  LOGE("HelloVideoApp::OnSurfaceChanged %d %d %d", width, height, width0);
+  //fixme: seems to be useless
+  /*if(width0)
+    glViewport(200, 0, width, height);
+  else
+    glViewport(0, 0, width, height);*/
+
 }
-
-
 
 void HelloVideoApp::OnDrawFrame() {
   if (is_service_connected_ && !is_texture_id_set_) {
@@ -266,8 +260,6 @@ void HelloVideoApp::RenderYuv() {
       swap_buffer_signal_ = false;
     }
   }
-
-
 
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb = cv::Mat(yuv_height_,yuv_width_,CV_8UC3);

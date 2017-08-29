@@ -78,6 +78,10 @@ public class HelloVideoActivity extends Activity {
         mSurfaceView2.setEGLContextClientVersion(2);
         mSurfaceView2.setRenderer(new HelloVideoRenderer(false));
 
+        //todo: use real value of screen width
+        mSurfaceView.getHolder().setFixedSize(950, 942);
+        mSurfaceView2.getHolder().setFixedSize(950,942);
+
         mYuvRenderSwitcher = (ToggleButton) findViewById(R.id.yuv_switcher);
     }
 

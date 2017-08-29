@@ -39,10 +39,11 @@ public class HelloVideoRenderer implements GLSurfaceView.Renderer {
 
     // Called when the surface size changes.
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+
         if(mLeftSurface)
-            TangoJniNative.onGlSurfaceChanged(0, width/2, height);
+            TangoJniNative.onGlSurfaceChanged(0, width, height);
         else
-            TangoJniNative.onGlSurfaceChanged(width/2, width/2, height);
+            TangoJniNative.onGlSurfaceChanged(100, width, height);
     }
 
     // Called when the surface is created or recreated.
