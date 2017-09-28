@@ -24,6 +24,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ToggleButton;
@@ -79,8 +80,13 @@ public class HelloVideoActivity extends Activity {
         mSurfaceView2.setRenderer(new HelloVideoRenderer(false));
 
         //todo: use real value of screen width
-        mSurfaceView.getHolder().setFixedSize(950, 942);
-        mSurfaceView2.getHolder().setFixedSize(950,942);
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int height = metrics.heightPixels;
+        int width = metrics.widthPixels;
+
+        mSurfaceView.getHolder().setFixedSize(width/2, height);
+        mSurfaceView2.getHolder().setFixedSize(width/2, height);
 
         mYuvRenderSwitcher = (ToggleButton) findViewById(R.id.yuv_switcher);
     }

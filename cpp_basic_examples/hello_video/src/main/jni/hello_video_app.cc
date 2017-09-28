@@ -264,9 +264,11 @@ void HelloVideoApp::RenderYuv() {
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb = cv::Mat(yuv_height_,yuv_width_,CV_8UC3);
 
+  GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
   if(/*currentTimeInMilliseconds() - time_for_frame > 100*/1) {
     Canny(rgb, rgb, 10, 100, 3);
+    //Sobel(rgb, rgb, 10, 100, 3);
     time_for_frame = currentTimeInMilliseconds();
   } else
     return;
