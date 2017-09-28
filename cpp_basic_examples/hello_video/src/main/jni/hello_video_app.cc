@@ -203,13 +203,6 @@ void HelloVideoApp::OnSurfaceCreated() {
 }
 
 void HelloVideoApp::OnSurfaceChanged(int width0, int width, int height) {
-  LOGE("HelloVideoApp::OnSurfaceChanged %d %d %d", width, height, width0);
-  //fixme: seems to be useless
-  /*if(width0)
-    glViewport(200, 0, width, height);
-  else
-    glViewport(0, 0, width, height);*/
-
 }
 
 void HelloVideoApp::OnDrawFrame() {
@@ -267,8 +260,24 @@ void HelloVideoApp::RenderYuv() {
   GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
   if(/*currentTimeInMilliseconds() - time_for_frame > 100*/1) {
-    Canny(rgb, rgb, 10, 100, 3);
-    //Sobel(rgb, rgb, 10, 100, 3);
+    //Canny(rgb, rgb, 10, 100, 3);
+
+      /// Generate grad_x and grad_y
+      cv::Mat grad_x, grad_y;
+      cv::Mat abs_grad_x, abs_grad_y;
+
+      /// Gradient X
+      Sobel( rgb, grad_x, CV_16S, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT );
+      convertScaleAbs( grad_x, abs_grad_x );
+
+      /// Gradient Y
+      Sobel( rgb, grad_y, CV_16S, 0, 1, 3, 1, 0, cv::BORDER_DEFAULT );
+      convertScaleAbs( grad_y, abs_grad_y );
+
+      /// Total Gradient (approximate)
+      addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rgb );
+
+
     time_for_frame = currentTimeInMilliseconds();
   } else
     return;
