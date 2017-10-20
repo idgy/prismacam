@@ -257,30 +257,32 @@ void HelloVideoApp::RenderYuv() {
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb = cv::Mat(yuv_height_,yuv_width_,CV_8UC3);
 
+
+
   GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
-  if(/*currentTimeInMilliseconds() - time_for_frame > 100*/1) {
-    //Canny(rgb, rgb, 10, 100, 3);
 
-      /// Generate grad_x and grad_y
-      cv::Mat grad_x, grad_y;
-      cv::Mat abs_grad_x, abs_grad_y;
+  //cv::Mat srcHalf(yuv_height_,yuv_width_/2,CV_8UC3.);
+  //src(Rect(0, yuw_width_/4, yuv_width_/2, yuv_height_)).copyTo(srcHalf);
 
-      /// Gradient X
-      Sobel( rgb, grad_x, CV_16S, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT );
-      convertScaleAbs( grad_x, abs_grad_x );
+  //Canny(rgb, rgb, 10, 100, 3);
 
-      /// Gradient Y
-      Sobel( rgb, grad_y, CV_16S, 0, 1, 3, 1, 0, cv::BORDER_DEFAULT );
-      convertScaleAbs( grad_y, abs_grad_y );
+  /// Generate grad_x and grad_y
+  cv::Mat grad_x, grad_y;
+  cv::Mat abs_grad_x, abs_grad_y;
 
-      /// Total Gradient (approximate)
-      addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rgb );
+  /// Gradient X
+  Sobel( rgb, grad_x, CV_16S, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT );
+  convertScaleAbs( grad_x, abs_grad_x );
+
+  /// Gradient Y
+  Sobel( rgb, grad_y, CV_16S, 0, 1, 3, 1, 0, cv::BORDER_DEFAULT );
+  convertScaleAbs( grad_y, abs_grad_y );
+
+  /// Total Gradient (approximate)
+  addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rgb );
 
 
-    time_for_frame = currentTimeInMilliseconds();
-  } else
-    return;
   cvtColor(rgb, rgb, CV_GRAY2RGB);
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
