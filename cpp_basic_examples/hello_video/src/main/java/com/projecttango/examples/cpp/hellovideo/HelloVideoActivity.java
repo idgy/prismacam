@@ -38,8 +38,7 @@ public class HelloVideoActivity extends Activity {
     private static final int CAMERA_ID = 0;
 
     private GLSurfaceView mSurfaceView;
-    private GLSurfaceView mSurfaceView2;
-    private ToggleButton mYuvRenderSwitcher;
+    private ToggleButton mFilterOn;
 
     private ServiceConnection mTangoServiceCoonnection = new ServiceConnection() {
         @Override
@@ -75,37 +74,22 @@ public class HelloVideoActivity extends Activity {
         mSurfaceView.setEGLContextClientVersion(2);
         mSurfaceView.setRenderer(new HelloVideoRenderer(true));
 
-        mSurfaceView2 = (GLSurfaceView) findViewById(R.id.surfaceview2);
-        mSurfaceView2.setEGLContextClientVersion(2);
-        mSurfaceView2.setRenderer(new HelloVideoRenderer(false));
-
-        //todo: use real value of screen width
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        int height = metrics.heightPixels;
-        int width = metrics.widthPixels;
-
-        mSurfaceView.getHolder().setFixedSize(width/2, height);
-        mSurfaceView2.getHolder().setFixedSize(width/2, height);
-
-        mYuvRenderSwitcher = (ToggleButton) findViewById(R.id.yuv_switcher);
+        mFilterOn = (ToggleButton) findViewById(R.id.filter_on);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mSurfaceView.onResume();
-        mSurfaceView2.onResume();
         TangoInitializationHelper.bindTangoService(this, mTangoServiceCoonnection);
-        TangoJniNative.setYuvMethod(mYuvRenderSwitcher.isChecked());
+        TangoJniNative.setYuvMethod(mFilterOn.isChecked());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mSurfaceView.onPause();
-        mSurfaceView2.onPause();
-        TangoJniNative.onPause();
+       TangoJniNative.onPause();
         unbindService(mTangoServiceCoonnection);
     }
 
@@ -113,6 +97,6 @@ public class HelloVideoActivity extends Activity {
      * The render mode toggle button was pressed.
      */
     public void renderModeClicked(View view) {
-        TangoJniNative.setYuvMethod(mYuvRenderSwitcher.isChecked());
+        TangoJniNative.setYuvMethod(mFilterOn.isChecked());
     }
 }

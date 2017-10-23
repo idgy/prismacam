@@ -243,9 +243,10 @@ void HelloVideoApp::AllocateTexture(GLuint texture_id, int width, int height) {
 }
 
 void HelloVideoApp::RenderYuv() {
-  if(!is_yuv_texture_available_) {
+
+  if(!is_yuv_texture_available_)
     return;
-  }
+
   {
     std::lock_guard<std::mutex> lock(yuv_buffer_mutex_);
     if (swap_buffer_signal_) {
@@ -254,10 +255,10 @@ void HelloVideoApp::RenderYuv() {
     }
   }
 
+
+
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);
-
-
 
   GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
@@ -268,37 +269,39 @@ void HelloVideoApp::RenderYuv() {
   LOGE("src.col %d src.row %d type %d \n", src.cols, src.rows, src.type());
 
 
+  //if(is_yuv_texture_available_) {
 
-  //Canny(rgb, rgb, 10, 100, 3);
+      /// Generate grad_x and grad_y
+      cv::Mat grad_x, grad_y;
+      cv::Mat abs_grad_x, abs_grad_y;
 
-  /// Generate grad_x and grad_y
-  cv::Mat grad_x, grad_y;
-  cv::Mat abs_grad_x, abs_grad_y;
+      /// Gradient X
+      Sobel( rgb, grad_x, CV_16S, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT );
+      convertScaleAbs( grad_x, abs_grad_x );
 
-  /// Gradient X
-  Sobel( rgb, grad_x, CV_16S, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT );
-  convertScaleAbs( grad_x, abs_grad_x );
+      /// Gradient Y
+      Sobel( rgb, grad_y, CV_16S, 0, 1, 3, 1, 0, cv::BORDER_DEFAULT );
+      convertScaleAbs( grad_y, abs_grad_y );
 
-  /// Gradient Y
-  Sobel( rgb, grad_y, CV_16S, 0, 1, 3, 1, 0, cv::BORDER_DEFAULT );
-  convertScaleAbs( grad_y, abs_grad_y );
-
-  /// Total Gradient (approximate)
-  addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rgb );
-
+      /// Total Gradient (approximate)
+      addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rgb );
+  //}
 
   cvtColor(rgb, rgb, CV_GRAY2RGB);
 
-    cv::Mat test;
-    cv::Size sz_ = rgb.size();
-    cv::Size sz(sz_.width/2, sz_.height);
-    test.create(sz, CV_MAKETYPE(CV_8U, 1));
-    //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(test);
-    rgb(cv::Range::all(), cv::Range(sz.width/4, sz.width/2)).copyTo(test);
-    LOGE("test.col %d test.row %d type %d\n", test.cols, test.rows, test.type()   );
+  cv::Mat test;
+  cv::Size sz_ = rgb.size();
+  cv::Size sz(sz_.width, sz_.height);
+  test.create(sz, CV_MAKETYPE(CV_8U, 1));
+  //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(test);
+  test.setTo(0);
+  rgb(cv::Range::all(), cv::Range(sz.width/4, 3*sz.width/4)).copyTo(test);
+  LOGE("test.col %d test.row %d type %d\n", test.cols, test.rows, test.type()   );
+
+  //test.copyTo(rgb);
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_/2, yuv_height_, 0, GL_RGB,
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
                GL_UNSIGNED_BYTE, test.data);
 
   yuv_drawable_->Render(glm::mat4(1.0f), glm::mat4(1.0f));

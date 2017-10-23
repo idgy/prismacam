@@ -16,23 +16,17 @@
     android:layout_height="fill_parent" >
 
     <android.opengl.GLSurfaceView
-        android:id="@+id/surfaceview2"
-        android:layout_width="wrap_content"
+        android:id="@+id/surfaceview"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="false"
         android:layout_gravity="top|right" />
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/surfaceview"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="top|left" />
     <ToggleButton
-        android:id="@+id/yuv_switcher"
+        android:id="@+id/filter_on"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Canny"
+        android:text="Filter"
         android:onClick="renderModeClicked" />
 
 </RelativeLayout>
