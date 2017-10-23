@@ -255,7 +255,7 @@ void HelloVideoApp::RenderYuv() {
   }
 
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
-  cv::Mat rgb = cv::Mat(yuv_height_,yuv_width_,CV_8UC3);
+  cv::Mat rgb;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);
 
 
 
@@ -263,7 +263,11 @@ void HelloVideoApp::RenderYuv() {
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
 
   //cv::Mat srcHalf(yuv_height_,yuv_width_/2,CV_8UC3.);
-  //src(Rect(0, yuw_width_/4, yuv_width_/2, yuv_height_)).copyTo(srcHalf);
+  //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(rgb);
+  LOGE("rgb.col %d rgb.row %d type %d \n", rgb.cols, rgb.rows, rgb.type());
+  LOGE("src.col %d src.row %d type %d \n", src.cols, src.rows, src.type());
+
+
 
   //Canny(rgb, rgb, 10, 100, 3);
 
@@ -285,9 +289,17 @@ void HelloVideoApp::RenderYuv() {
 
   cvtColor(rgb, rgb, CV_GRAY2RGB);
 
+    cv::Mat test;
+    cv::Size sz_ = rgb.size();
+    cv::Size sz(sz_.width/2, sz_.height);
+    test.create(sz, CV_MAKETYPE(CV_8U, 1));
+    //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(test);
+    rgb(cv::Range::all(), cv::Range(sz.width/4, sz.width/2)).copyTo(test);
+    LOGE("test.col %d test.row %d type %d\n", test.cols, test.rows, test.type()   );
+
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, rgb.data);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_/2, yuv_height_, 0, GL_RGB,
+               GL_UNSIGNED_BYTE, test.data);
 
   yuv_drawable_->Render(glm::mat4(1.0f), glm::mat4(1.0f));
 }
