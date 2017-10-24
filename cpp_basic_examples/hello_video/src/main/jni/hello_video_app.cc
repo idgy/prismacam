@@ -255,20 +255,13 @@ void HelloVideoApp::RenderYuv() {
     }
   }
 
-
-
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);
 
   GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
 
-  //cv::Mat srcHalf(yuv_height_,yuv_width_/2,CV_8UC3.);
-  //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(rgb);
-  LOGE("rgb.col %d rgb.row %d type %d \n", rgb.cols, rgb.rows, rgb.type());
-  LOGE("src.col %d src.row %d type %d \n", src.cols, src.rows, src.type());
-
-
+  //Filter
   //if(is_yuv_texture_available_) {
 
       /// Generate grad_x and grad_y
@@ -289,20 +282,20 @@ void HelloVideoApp::RenderYuv() {
 
   cvtColor(rgb, rgb, CV_GRAY2RGB);
 
-  cv::Mat test;
-  cv::Size sz_ = rgb.size();
-  cv::Size sz(sz_.width, sz_.height);
-  test.create(sz, CV_MAKETYPE(CV_8U, 1));
-  //rgb(cv::Rect(yuv_width_/4, 0, yuv_width_/2, yuv_height_)).copyTo(test);
-  test.setTo(0);
-  rgb(cv::Range::all(), cv::Range(sz.width/4, 3*sz.width/4)).copyTo(test);
-  LOGE("test.col %d test.row %d type %d\n", test.cols, test.rows, test.type()   );
+  //Doubling
+  cv::Size sz = rgb.size();
 
-  //test.copyTo(rgb);
+  cv::Range middle(sz.width/4, 3*sz.width/4);
+  cv::Range left(0, sz.width/2);
+  cv::Range right(sz.width/2, sz.width);
+  cv::Range h(cv::Range::all());
+
+  rgb( h, middle).copyTo(rgb(h, left));
+  rgb( h, left).copyTo(rgb(h, right));
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, test.data);
+               GL_UNSIGNED_BYTE, rgb.data);
 
   yuv_drawable_->Render(glm::mat4(1.0f), glm::mat4(1.0f));
 }
