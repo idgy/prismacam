@@ -15,6 +15,7 @@ out/
 obj/
 *.d
 *.lib
+*.so
 
 
 # Gradle files
