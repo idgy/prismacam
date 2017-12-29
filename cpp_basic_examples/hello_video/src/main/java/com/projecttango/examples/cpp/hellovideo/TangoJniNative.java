@@ -79,4 +79,7 @@ public class TangoJniNative {
      *                     the Texture ID rendering method will be used instead.
      */
     public static native void setYuvMethod(boolean useYuvMethod);
+
+
+    public static native void AdjustMiddleStart(boolean toLeft);
 }

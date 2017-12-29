@@ -71,6 +71,13 @@ Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_setYuvMethod(
   }
 }
 
+JNIEXPORT void JNICALL
+Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_AdjustMiddleStart(
+    JNIEnv*, jobject, jboolean toLeft) {
+  app.AdjustMiddleStart(toLeft);
+}
+
+
 #ifdef __cplusplus
 }
 #endif

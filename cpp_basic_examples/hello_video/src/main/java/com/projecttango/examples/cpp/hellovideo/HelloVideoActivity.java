@@ -99,4 +99,12 @@ public class HelloVideoActivity extends Activity {
     public void renderModeClicked(View view) {
         TangoJniNative.setYuvMethod(mFilterOn.isChecked());
     }
+
+    public void toRightClicked(View view) {
+        TangoJniNative.AdjustMiddleStart(false);
+    }
+
+    public void toLeftClicked(View view) {
+        TangoJniNative.AdjustMiddleStart(true);
+    }
 }

@@ -79,6 +79,8 @@ class HelloVideoApp {
     current_texture_method_ = method;
   }
 
+  void AdjustMiddleStart(bool toLeft);
+
   // YUV data callback.
   void OnFrameAvailable(const TangoImageBuffer* buffer);
 
@@ -106,6 +108,8 @@ class HelloVideoApp {
   size_t yuv_height_;
   size_t yuv_size_;
   size_t uv_buffer_offset_;
+
+  double middle_start_;
 
   bool is_service_connected_;
   bool is_texture_id_set_;
