@@ -68,6 +68,10 @@ void HelloVideoApp::OnCreate(JNIEnv* env, jobject caller_activity,
 }
 
 void HelloVideoApp::AdjustMiddleStart(bool toLeft) {
+
+    if(!is_yuv_texture_available_)
+        return;
+
     double shift = 0.02;
 
     double& dec = toLeft ? l_middle_start_ : r_middle_start_;
@@ -75,9 +79,9 @@ void HelloVideoApp::AdjustMiddleStart(bool toLeft) {
 
     dec -= shift;
     inc += shift;
-    if(dec < 0) {
-       dec = 0;
-       inc = 0.5;
+    if(dec < 0.1 || inc > 0.4) {
+       dec = 0.1;
+       inc = 0.4;
      }
 
     LOGE("middle_start_ l = %f r = %f", l_middle_start_, r_middle_start_);
@@ -313,6 +317,11 @@ void HelloVideoApp::RenderYuv() {
   cv::Range right(sz.width/2, sz.width);
   cv::Range h(cv::Range::all());
 
+  if(middle_l.size() != left.size())
+    middle_l.end --;
+
+  if(middle_r.size() != right.size())
+    middle_r.end -- ;
   cv::Mat rgb_copy = rgb.clone();
 
   rgb( h, middle_l).copyTo(rgb_copy(h, left));
