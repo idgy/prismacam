@@ -64,23 +64,23 @@ void HelloVideoApp::OnCreate(JNIEnv* env, jobject caller_activity,
   yuv_drawable_ = NULL;
   activity_rotation_ = activity_rotation;
   sensor_rotation_ = sensor_rotation;
-  middle_start_ = 0.25;
+  l_middle_start_ = r_middle_start_ = 0.25;
 }
 
 void HelloVideoApp::AdjustMiddleStart(bool toLeft) {
     double shift = 0.02;
 
-    if(toLeft) {
-        middle_start_ -= shift;
-        if(middle_start_ < 0)
-           middle_start_ = 0;
-    } else {
-        middle_start_ += shift;
-        if(middle_start_ > 0.5)
-           middle_start_ = 0.5;
-    }
+    double& dec = toLeft ? l_middle_start_ : r_middle_start_;
+    double& inc = toLeft ? r_middle_start_ : l_middle_start_;
 
-    LOGE("middle_start_ %f", middle_start_);
+    dec -= shift;
+    inc += shift;
+    if(dec < 0) {
+       dec = 0;
+       inc = 0.5;
+     }
+
+    LOGE("middle_start_ l = %f r = %f", l_middle_start_, r_middle_start_);
 
 }
 
@@ -303,19 +303,24 @@ void HelloVideoApp::RenderYuv() {
   //Doubling
   cv::Size sz = rgb.size();
 
-  double start = sz.width*middle_start_;
+  double start_l = sz.width*l_middle_start_;
+  double start_r = sz.width*r_middle_start_;
 
-  cv::Range middle(start, start + 0.5*sz.width);
+  cv::Range middle_l(start_l, start_l + 0.5*sz.width);
+  cv::Range middle_r(start_r, start_r + 0.5*sz.width);
+
   cv::Range left(0, sz.width/2);
   cv::Range right(sz.width/2, sz.width);
   cv::Range h(cv::Range::all());
 
-  rgb( h, middle).copyTo(rgb(h, left));
-  rgb( h, left).copyTo(rgb(h, right));
+  cv::Mat rgb_copy = rgb.clone();
+
+  rgb( h, middle_l).copyTo(rgb_copy(h, left));
+  rgb( h, middle_r).copyTo(rgb_copy(h, right));
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, rgb.data);
+               GL_UNSIGNED_BYTE, rgb_copy.data);
 
   yuv_drawable_->Render(glm::mat4(1.0f), glm::mat4(1.0f));
 }

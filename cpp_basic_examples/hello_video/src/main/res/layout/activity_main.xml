@@ -25,19 +25,19 @@
 
     <ToggleButton
         android:id="@+id/right_shift"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/left_shift"
         android:onClick="toRightClicked"
         android:text="Filter"
         android:textColor="@android:color/holo_blue_dark"
-        android:textOff="Right"
-        android:textOn="Right" />
+        android:textOff="+"
+        android:textOn="+" />
 
     <ToggleButton
         android:id="@+id/left_shift"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
@@ -45,8 +45,8 @@
         android:text="Filter"
         android:textColor="@android:color/holo_blue_dark"
         android:textColorLink="@android:color/transparent"
-        android:textOff="Left"
-        android:textOn="Left" />
+        android:textOff="-"
+        android:textOn="-" />
 
     <ToggleButton
         android:id="@+id/filter_on"

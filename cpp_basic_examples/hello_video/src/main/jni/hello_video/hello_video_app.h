@@ -109,7 +109,8 @@ class HelloVideoApp {
   size_t yuv_size_;
   size_t uv_buffer_offset_;
 
-  double middle_start_;
+  double l_middle_start_;
+  double r_middle_start_;
 
   bool is_service_connected_;
   bool is_texture_id_set_;
