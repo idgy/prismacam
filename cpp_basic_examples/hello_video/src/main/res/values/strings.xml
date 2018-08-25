@@ -12,6 +12,6 @@
    limitations under the License.
 -->
 <resources>
-    <string name="app_name">PrismaCam</string>
-    <string name="app_name_long">Example of Canny</string>
+    <string name="app_name">DoubleCam</string>
+    <string name="app_name_long">Just doubling</string>
 </resources>

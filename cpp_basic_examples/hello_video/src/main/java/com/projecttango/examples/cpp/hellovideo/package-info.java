@@ -18,4 +18,4 @@
  * Native JNI hello video example.
  */
 
-package com.projecttango.examples.cpp.hellovideo;
+package com.projecttango.examples.cpp.hellovideo_test;

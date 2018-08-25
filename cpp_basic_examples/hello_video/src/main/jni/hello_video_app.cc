@@ -322,14 +322,14 @@ void HelloVideoApp::RenderYuv() {
 
   if(middle_r.size() != right.size())
     middle_r.end -- ;
-  cv::Mat rgb_copy = rgb.clone();
+  cv::Mat rgb_copy = src.clone();
 
-  rgb( h, middle_l).copyTo(rgb_copy(h, left));
-  rgb( h, middle_r).copyTo(rgb_copy(h, right));
+  src( h, middle_l).copyTo(rgb_copy(h, left));
+  src( h, middle_r).copyTo(rgb_copy(h, right));
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
-               GL_UNSIGNED_BYTE, rgb_copy.data);
+               GL_UNSIGNED_BYTE, src.data);
 
   yuv_drawable_->Render(glm::mat4(1.0f), glm::mat4(1.0f));
 }

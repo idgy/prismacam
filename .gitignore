@@ -16,6 +16,7 @@ obj/
 *.d
 *.lib
 *.so
+*.o
 
 
 # Gradle files
@@ -44,3 +45,5 @@ captures/
 
 # Keystore files
 *.jks
+
+.*project

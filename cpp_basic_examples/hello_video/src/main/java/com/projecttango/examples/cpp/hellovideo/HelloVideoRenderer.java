@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.projecttango.examples.cpp.hellovideo;
+package com.projecttango.examples.cpp.hellovideo_test;
 
 import android.opengl.GLSurfaceView;
 
