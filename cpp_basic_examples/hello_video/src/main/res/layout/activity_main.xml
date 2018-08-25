@@ -52,7 +52,9 @@
         android:id="@+id/filter_on"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Filter"
-        android:onClick="renderModeClicked" />
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/right_shift"
+        android:onClick="renderModeClicked"
+        android:text="Filter" />
 
 </RelativeLayout>
