@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 22
+        targetSdkVersion 28
     }
 
     sourceSets.main {
@@ -31,12 +31,13 @@ tasks.withType(JavaCompile) {
 task ndkBuild(type: Exec) {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    def ndkbuild = properties.getProperty('ndk.dir', null)+"/ndk-build"
+    //FIXME: check operating system linux: ndk-build, win: ndk-build.cmd
+    def ndkbuild = properties.getProperty('ndk.dir', null)+"/ndk-build.cmd"
     commandLine ndkbuild, '-C', file('src/main/jni').absolutePath
 }
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':cpp_example_util')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':cpp_example_util')
 }

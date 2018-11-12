@@ -18,9 +18,6 @@
     android:versionCode="0"
     android:versionName="0" >
 
-    <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="19" />
 
     <application
         android:allowBackup="true"

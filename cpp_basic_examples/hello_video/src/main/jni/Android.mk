@@ -18,7 +18,8 @@ PROJECT_ROOT_FROM_JNI:= ../../../../..
 PROJECT_ROOT:= $(call my-dir)/../../../../..
 
 
-CVROOT := /home/dreik/repos/OpenCV-android-sdk/sdk/native/jni
+//CVROOT := /home/dreik/repos/OpenCV-android-sdk/sdk/native/jni
+CVROOT := e:\distr\opencv\OpenCV-android-sdk\sdk\native\jni
 
 include $(CLEAR_VARS)
 
@@ -45,7 +46,7 @@ LOCAL_C_INCLUDES := $(PROJECT_ROOT)/tango_gl/include \
 
 LOCAL_LDLIBS    += -llog -lGLESv2 -L$(SYSROOT)/usr/lib
 #LOCAL_LDFLAGS += -fopenmp
-include $(BUILD_SHARED_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
 
 $(call import-add-path, $(PROJECT_ROOT))
 $(call import-module,tango_client_api)
