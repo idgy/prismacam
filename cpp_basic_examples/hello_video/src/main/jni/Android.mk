@@ -22,7 +22,7 @@ ifeq ($(HOST_OS),linux)
 endif
 
 ifeq ($(HOST_OS),windows)
-    //CVROOT := e:\distr\opencv\OpenCV-android-sdk\sdk\native\jni
+    CVROOT := e:\distr\opencv\OpenCV-android-sdk\sdk\native\jni
 endif
 
 include $(CLEAR_VARS)
