@@ -17,9 +17,13 @@ LOCAL_PATH := $(call my-dir)
 PROJECT_ROOT_FROM_JNI:= ../../../../..
 PROJECT_ROOT:= $(call my-dir)/../../../../..
 
+ifeq ($(HOST_OS),linux)
+    CVROOT := /home/dreik/repos/OpenCV-android-sdk/sdk/native/jni
+endif
 
-//CVROOT := /home/dreik/repos/OpenCV-android-sdk/sdk/native/jni
-CVROOT := e:\distr\opencv\OpenCV-android-sdk\sdk\native\jni
+ifeq ($(HOST_OS),windows)
+    //CVROOT := e:\distr\opencv\OpenCV-android-sdk\sdk\native\jni
+endif
 
 include $(CLEAR_VARS)
 
