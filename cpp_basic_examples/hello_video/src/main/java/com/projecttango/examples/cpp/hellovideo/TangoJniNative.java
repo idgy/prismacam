@@ -82,4 +82,6 @@ public class TangoJniNative {
 
 
     public static native void AdjustMiddleStart(boolean toLeft);
+
+    public static native void SetDoubling(boolean value);
 }

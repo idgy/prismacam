@@ -25,6 +25,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Display;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ToggleButton;
@@ -75,6 +77,23 @@ public class HelloVideoActivity extends Activity {
         mSurfaceView.setRenderer(new HelloVideoRenderer(true));
 
         mFilterOn = (ToggleButton) findViewById(R.id.filter_on);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.isCheckable()){
+
+            item.setChecked(!item.isChecked());
+            TangoJniNative.SetDoubling(item.isChecked());
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override

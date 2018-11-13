@@ -72,6 +72,13 @@ Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_setYuvMethod(
 }
 
 JNIEXPORT void JNICALL
+Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_SetDoubling(
+    JNIEnv*, jobject, jboolean value_checked) {
+
+    app.SetDoubling(value_checked);
+}
+
+JNIEXPORT void JNICALL
 Java_com_projecttango_examples_cpp_hellovideo_TangoJniNative_AdjustMiddleStart(
     JNIEnv*, jobject, jboolean toLeft) {
   app.AdjustMiddleStart(toLeft);

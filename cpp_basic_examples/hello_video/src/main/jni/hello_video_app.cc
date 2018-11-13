@@ -56,6 +56,7 @@ void HelloVideoApp::OnCreate(JNIEnv* env, jobject caller_activity,
   }
 
   // Initialize variables
+  isDoubling = false;
   is_yuv_texture_available_ = false;
   swap_buffer_signal_ = false;
   is_service_connected_ = false;
@@ -86,6 +87,10 @@ void HelloVideoApp::AdjustMiddleStart(bool toLeft) {
 
     LOGE("middle_start_ l = %f r = %f", l_middle_start_, r_middle_start_);
 
+}
+
+void HelloVideoApp::SetDoubling(bool value_check){
+    isDoubling = value_check;
 }
 
 void HelloVideoApp::OnTangoServiceConnected(JNIEnv* env, jobject binder) {
@@ -276,6 +281,8 @@ void HelloVideoApp::RenderYuv() {
       swap_buffer_signal_ = false;
     }
   }
+
+  LOGE("Doubling: %d\n", isDoubling);
 
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
   cv::Mat rgb;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);

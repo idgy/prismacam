@@ -80,6 +80,7 @@ class HelloVideoApp {
   }
 
   void AdjustMiddleStart(bool toLeft);
+  void SetDoubling(bool value_check);
 
   // YUV data callback.
   void OnFrameAvailable(const TangoImageBuffer* buffer);
@@ -122,6 +123,8 @@ class HelloVideoApp {
   void RenderYuv();
   void RenderTextureId();
   void DeleteDrawables();
+
+  bool isDoubling;
 };
 }  // namespace hello_video
 
