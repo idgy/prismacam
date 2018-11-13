@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.projecttango.examples.cpp.hellovideo_test;
+package com.projecttango.examples.cpp.hellovideo;
 
 import android.app.Activity;
 import android.os.IBinder;
