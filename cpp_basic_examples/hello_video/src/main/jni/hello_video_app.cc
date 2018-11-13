@@ -282,13 +282,16 @@ void HelloVideoApp::RenderYuv() {
     }
   }
 
-  LOGE("Doubling: %d\n", isDoubling);
+  //LOGE("Doubling: %d\n", isDoubling);
 
   cv::Mat src = cv::Mat(yuv_height_*3/2,yuv_width_,CV_8U, &yuv_buffer_[0]);
-  cv::Mat rgb;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);
+  cv::Mat rgb, orig;// = cv::Mat//(yuv_height_,yuv_width_/2,CV_8UC3);
 
   GaussianBlur( src, src, cv::Size(3,3), 0, 0, cv::BORDER_DEFAULT );
   cvtColor(src, rgb, CV_YUV2GRAY_NV21);
+
+  src.copyTo(orig);
+  cvtColor(orig, orig, CV_GRAY2RGB);
 
   //Filter
   //if(is_yuv_texture_available_) {
@@ -311,8 +314,12 @@ void HelloVideoApp::RenderYuv() {
 
   cvtColor(rgb, rgb, CV_GRAY2RGB);
 
-  //Doubling
-  cv::Size sz = rgb.size();
+  cv::Mat& cur = isDoubling ? orig : rgb;
+  cv::Mat rgb_copy = cur.clone();
+
+  //LOGE("rgb with %d height %d",  cur.size().width, cur.size().height);
+
+  cv::Size sz = cur.size();
 
   double start_l = sz.width*l_middle_start_;
   double start_r = sz.width*r_middle_start_;
@@ -329,10 +336,9 @@ void HelloVideoApp::RenderYuv() {
 
   if(middle_r.size() != right.size())
     middle_r.end -- ;
-  cv::Mat rgb_copy = rgb.clone();
 
-  rgb( h, middle_l).copyTo(rgb_copy(h, left));
-  rgb( h, middle_r).copyTo(rgb_copy(h, right));
+  cur( h, middle_l).copyTo(rgb_copy(h, left));
+  cur( h, middle_r).copyTo(rgb_copy(h, right));
 
   glBindTexture(GL_TEXTURE_2D, yuv_drawable_->GetTextureId());
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, yuv_width_, yuv_height_, 0, GL_RGB,
