@@ -50,7 +50,7 @@ LOCAL_C_INCLUDES := $(PROJECT_ROOT)/tango_gl/include \
 
 LOCAL_LDLIBS    += -llog -lGLESv2 -L$(SYSROOT)/usr/lib
 #LOCAL_LDFLAGS += -fopenmp
-include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path, $(PROJECT_ROOT))
 $(call import-module,tango_client_api)
