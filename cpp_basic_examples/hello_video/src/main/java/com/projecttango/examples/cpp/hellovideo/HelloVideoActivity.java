@@ -55,13 +55,21 @@ public class HelloVideoActivity extends Activity {
         }
     };
 
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-        // Check the current screen rotation and set it to the renderer.
+
+        if (checkSelfPermission(android.Manifest.permission.CAMERA) != android.content.pm.PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(new String[]{android.Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+        }
+
+        /* Check the current screen rotation and set it to the renderer. */
         WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
 
